@@ -1,3 +1,16 @@
+<?php
+// dati prodotto
+$nome = "GUANA - cioccolato fondente";
+$descrizione = "Tavoletta di cioccolato fondente extra al 74%";
+$ingredienti = "pasta di cacao, zucchero di canna, burro di cacao, vaniglia. Cacao min. 74%. Può contenere tracce di nocciole, mandorle, pistacchi, noci, latte.";
+$conservazione = "conservare in luogo fresco e asciutto, max 18°C. Degustare a temperatura ambiente.";
+$scadenza = "14 mesi";
+$dimensioni = "9 x 15,5 x 1,2 cm";
+$peso_netto = "50";
+$prezzo = "5,00";
+$url_immagine = "https://c1.staticflickr.com/3/2369/2458986998_c81485c2db_z.jpg?zz=1";
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -41,33 +54,33 @@
     <main>
       <div class="row">
         <div class="col-md-12">
-          <h1>MAISON DU CHOCOLAT - GUANA</h1>
+          <h1><?=$nome?></h1>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <img src="https://c1.staticflickr.com/3/2369/2458986998_c81485c2db_z.jpg?zz=1">
+          <img src="<?=$url_immagine?>">
         </div>
         <div class="col-md-6">
-          <h2>GUANA - cioccolato fondente</h2>
-          <h3>Tavoletta di cioccolato fondente extra al 74%</h3>
+          <h2><?=$nome?></h2>
+          <h3><?=$descrizione?></h3>
           <div>
-            <strong>Ingredienti</strong>: pasta di cacao, zucchero di canna, burro di cacao, vaniglia. Cacao min. 74%. Può contenere tracce di nocciole, mandorle, pistacchi, noci, latte.
+            <strong>Ingredienti</strong>: <?=$ingredienti?>
           </div>
           <div>
-            <strong>Conservazione</strong>: conservare in luogo fresco e asciutto, max 18°C. Degustare a temperatura ambiente.
+            <strong>Conservazione</strong>: <?=$conservazione?>
           </div>
           <div>
-            <strong>Scadenza</strong>: 14 mesi
+            <strong>Scadenza</strong>: <?=$scadenza?>
           </div>
           <div>
-            <strong>Dimensioni</strong>: 9 x 15,5 x 1,2 cm
+            <strong>Dimensioni</strong>: <?=$dimensioni?>
           </div>
           <div>
-            <strong>Peso netto</strong>: 50 g
+            <strong>Peso netto</strong>: <?=$peso_netto?>
           </div>
           <div>
-            <strong>Prezzo</strong>: 5,00 €
+            <strong>Prezzo</strong>: <?=$prezzo?>
           </div>
         </div>
       </div>
