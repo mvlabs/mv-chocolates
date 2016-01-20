@@ -1,14 +1,13 @@
 <?php
 
+include 'inizializza.php';
+
 // lettura parametro da URL
 $codiceProdotto = $_GET['codice'];
 
-// lettura file esterno
-$listaProdotti = file_get_contents('data/prodotti.json');
+inizializza();
 
-// conversione in array
-$arrayProdotti = json_decode($listaProdotti, true);
-
+print_r($arrayProdotti);
 $prodotto = null;
 foreach($arrayProdotti as $prodottoArray) {
   if ($prodottoArray['codice'] == $codiceProdotto) {
