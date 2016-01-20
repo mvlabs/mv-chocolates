@@ -1,5 +1,11 @@
+<?php
+  $file = file_get_contents('./data/prodotti.json');
+  $prodotti = json_decode($file, true);
+?>
 <!DOCTYPE html>
 <html>
+
+
   <head>
     <title>MV chocosite</title>
     <meta charset="utf-8">
@@ -10,6 +16,7 @@
     <link href="/css/style.css" rel="stylesheet">
   </head>
   <body>
+
     <header>
       <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -26,8 +33,8 @@
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-              <li><a href="/prodotti.html">Prodotti</a></li>
+              <li><a href="/index.html">Home <span class="sr-only">(current)</span></a></li>
+              <li class="active"><a href="/prodotti.html">Prodotti</a></li>
               <li><a href="/dove-siamo.html">La filosofia</a></li>
               <li><a href="/chi-siamo.html">Chi siamo</a></li>
             </ul>
@@ -39,32 +46,44 @@
       </nav>
     </header>
     <main>
-      <div class="container-fluid">
-        <div class="row banner-home">
-          <div class="col-md-3">
-            <img src="https://c2.staticflickr.com/6/5105/5626762538_406270541c_b.jpg">
-          </div>
-          <div class="col-md-9">
-            <h1>Il cioccolato più buono? Lo trovi da noi!</h1>
-          </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h1>MAISON DU CHOCOLAT - GUANA</h1>
         </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="panel panel-default">
-              <div class="panel-heading"><a href="/product1.html">Maison du chocolat</a></div>
-              <div class="panel-body">
-                <img src="https://c1.staticflickr.com/3/2369/2458986998_c81485c2db_z.jpg?zz=1" />
-              </div>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="https://c1.staticflickr.com/3/2369/2458986998_c81485c2db_z.jpg?zz=1">
+        </div>
+        <div class="col-md-6">
+          <?php
+            foreach ($prodotti as $prodotto)  {
+                if ($prodotto['codice'] = $_GET['codice'] { ?>
+                <h1><?php echo $prodotto['codice']; ?></h1>
+                <h1><?php echo "$_GET " . ""$_GET['codice']; ?></h1>
+                <h2><?php echo $prodotto['nome']; ?></h2>
+                <h3><?php echo $prodotto['descrizione'] ?></h3>
+          <div>
+            <strong>Ingredienti</strong>: <?php echo $prodotto['ingredienti']; ?>
           </div>
-          <div class="col-md-4">
-            <div class="panel panel-default">
-              <div class="panel-heading"><a href="/product1.html">Mink</a></div>
-              <div class="panel-body">
-                <img src="https://c1.staticflickr.com/5/4027/4429686185_0e5ac89112_z.jpg?zz=1">
-              </div>
-            </div>
+          <div>
+            <strong>Conservazione</strong>: <?php echo $prodotto['conservazione']; ?>
           </div>
+          <div>
+            <strong>Scadenza</strong>: <?php echo $prodotto['scadenza']; ?>
+          </div>
+          <div>
+            <strong>Dimensioni</strong>: <?php echo $prodotto['dimensioni']; ?>
+          </div>
+          <div>
+            <strong>Peso netto</strong>: <?php echo $prodotto['peso_netto']; ?>
+          </div>
+          <div>
+            <strong>Prezzo</strong>: <?php echo $prodotto['prezzo']; ?>
+          </div>
+          <?php
+          }}
+           ?>
         </div>
       </div>
     </main>
