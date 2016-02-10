@@ -2,7 +2,7 @@
 
 function aggiungiProdottoCarrello($prodotto, $quantita) {
   // costruzione array che rappresenta riga carrello
-  $rigaCarrello = [
+  $nuovaRigaCarrello = [
     'prodotto' => $prodotto,
     'quantita' => $quantita
   ];
@@ -11,16 +11,28 @@ function aggiungiProdottoCarrello($prodotto, $quantita) {
   if (isset($_SESSION['carrello'])) {
     $carrello = $_SESSION['carrello'];
 
-    // carrello già inizializzato?
-    // verifica che lo stesso prodotto non sia già presente nel carrello
-    // in caso affermativo, aggiornarne la quantità
-
   } else {
     $carrello = [];
   }
 
-  // aggiunta riga a carrello
-  $carrello[] = $rigaCarrello;
+  // verifica che lo stesso prodotto non sia già presente nel carrello
+  // in caso affermativo, aggiorna la quantità
+
+  $nuovoCarrello = [];
+  $rigaAggiornata = false;
+  foreach($carrello as $rigaCarrello) {
+      if ($rigaCarrello['prodotto']['codice'] == $prodotto['codice']) {
+          $rigaCarrello['quantita']++;
+          $rigaAggiornata = true;
+      }
+      $nuovoCarrello[] = $rigaCarrello;
+  }
+
+  if (!$rigaAggiornata) {
+      $nuovoCarrello[] = $nuovaRigaCarrello;
+  }
+
+  $carrello = $nuovoCarrello;
 
   // aggiornamento sessione
   $_SESSION['carrello'] = $carrello;
@@ -57,7 +69,7 @@ function getTotaliCarrello() {
   $quantita = 0;
 
   foreach($prodottiCarrello as $rigaCarrello) {
-    $totale += $rigaCarrello['prodotto']['prezzo'];
+    $totale += $rigaCarrello['prodotto']['prezzo'] * $rigaCarrello['quantita'];
     $quantita += $rigaCarrello['quantita'];
   }
 
