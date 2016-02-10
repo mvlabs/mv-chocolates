@@ -26,6 +26,22 @@ function aggiungiProdottoCarrello($prodotto, $quantita) {
   $_SESSION['carrello'] = $carrello;
 }
 
+function rimuoviProdottoCarrello($codiceProdotto) {
+    if (isset($_SESSION['carrello'])) {
+      $carrello = $_SESSION['carrello'];
+
+      $nuovoCarrello = [];
+      foreach($carrello as $rigaCarrello) {
+          if ($rigaCarrello['prodotto']['codice'] != $codiceProdotto) {
+              $nuovoCarrello[] = $rigaCarrello;
+          }
+      }
+
+      $_SESSION['carrello'] = $nuovoCarrello;
+
+    }
+}
+
 function getProdottiCarrello() {
   if (isset($_SESSION['carrello'])) {
     return $_SESSION['carrello'];

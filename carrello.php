@@ -48,7 +48,7 @@ include 'libs/carrello.php';
                 <td><?=$rigaCarrello['prodotto']['nome']?></td>
                 <td><?=$rigaCarrello['quantita']?></td>
                 <td><?=$rigaCarrello['prodotto']['prezzo']?> &euro;</td>
-                <td><a href="" class="btn btn-link">rimuovi</a></td>
+                <td><a href="rimuovi_prodotto_carrello.php?codice=<?=$rigaCarrello['prodotto']['codice']?>" class="btn btn-link">rimuovi</a></td>
               </tr>
               <?php }
               $totaliCarrello = getTotaliCarrello();
