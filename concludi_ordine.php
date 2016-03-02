@@ -2,6 +2,7 @@
 
 // usiamo il namespace corretto per la classe ArchivioCarrelli
 use MvLabs\Chocosite\Model\ArchivioCarrelli;
+use MvLabs\Chocosite\Model\Magazzino;
 
 // inizializziamo le sessioni
 session_start();
@@ -20,9 +21,12 @@ $carrello = $archivioCarrelli->recupera();
 // recuperiamo i dati di carrello e utente e li salviamo in un file json
 $prodotti = $carrello->getRigheCarrello();
 
+
 $utente = $_SESSION['utente'];
 
+// dentro a db.php
 salvaOrdine($prodotti, $utente);
+salvaMagazzino($prodotti);
 
 // rimando a pagina carrello
 header ('location: grazie.php');

@@ -1,12 +1,18 @@
 <?php
 
 // usiamo il namespace corretto per la classe ArchivioCarrelli
+// in questo modo posso instanziare un oggetto con 'new ArchivioCarrelli()'
+// 'use' serve per avere nomi più brevi
+// 'use' serve quando  si instanzia e quando si usa il nome della classe
+// come typehint
+
 use MvLabs\Chocosite\Model\ArchivioCarrelli;
 
 // inizializziamo le sessioni
 session_start();
 
 // includere i file con le classi gestiti da Composer
+// di questo se ne occupa Composer
 include 'vendor/autoload.php';
 
 // creo un'istanza dell'archivio carrelli
