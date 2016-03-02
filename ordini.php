@@ -28,11 +28,14 @@ include 'libs/db.php';
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <th>Id</th>
                 <th>Data</th>
                 <th>Cliente</th>
                 <th>Num. prodotti</th>
                 <th>Totale</th>
+                <th>Stato</th>
+                <th>Note</th>
+                <th></th>
                 <th></th>
               </tr>
             </thead>
@@ -41,12 +44,15 @@ include 'libs/db.php';
               foreach($ordini as $ordine) {
               ?>
               <tr>
-                <th scope="row"><?=$ordine["id"]?></th>
-                <td><?=$ordine["data"]?></td>
-                <td><?=$ordine["nome"] . ' ' . $ordine["cognome"]?></td>
-                <td><?=$ordine["num_prodotti"]?></td>
-                <td><?=$ordine["totale"] / 100?> &euro;</td>
-                <td><a href="scheda_ordine.php?id=<?=$ordine["id"]?>" class="btn btn-link">dettaglio</a></td>
+                <th scope="row"><?=$ordine->id() ?></th>
+                <td><?=$ordine->data() ?></td>
+                <td><?=$ordine->clienteId() ?></td>
+                <td><?=$ordine->numProdotti() ?></td>
+                <td><?=$ordine->totale()  / 100?> &euro;</td>
+                <td><?=$ordine->stato() ?></td>
+                <td><?=$ordine->note() ?></td>
+                <td><a href="scheda_ordine.php?id=<?=$ordine->id() ?>" class="btn btn-link">dettaglio</a></td>
+                <td><a href="cambia_stato.php?id=<?=$ordine->id() ?>" class="btn btn-link">cambia stato</a></td>
               </tr>
               <?php } ?>
             </tbody>

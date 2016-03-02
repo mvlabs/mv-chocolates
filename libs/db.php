@@ -1,6 +1,7 @@
 <?php
 
 use MvLabs\Chocosite\Entity\Tavoletta;
+use MvLabs\Chocosite\Entity\Ordine;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -114,16 +115,17 @@ function salvaOrdine($prodotti, $utente) {
     unset($_SESSION['carrello']);
 }
 
+
 function getListaOrdini() {
     $db = creaConnessionePDO();
-
-    $query = "SELECT ordini.id, ordini.data, clienti.nome, clienti.cognome, COUNT(ordini_dettagli.id) as num_prodotti, ordini.totale
-              FROM ordini, clienti, ordini_dettagli
+    $stmt =  $db->prepare('SELECT ordini.id, ordini.data, ordini.cliente_id,  COUNT(ordini_dettagli.id) as num_prodotti, ordini.totale, ordini_stato.descrizione as stato, ordini.note
+              FROM ordini, ordini_dettagli, ordini_stato
               WHERE ordini.id = ordini_dettagli.ordine_id
-              AND ordini.cliente_id = clienti.id
-              GROUP BY ordini.id";
+              AND ordini.stato = ordini_stato.id
+              GROUP BY ordini.id');
+    $stmt->execute();
 
-    return $db->query($query);
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Ordine::class);
 }
 
 function recuperaOrdine($id) {
