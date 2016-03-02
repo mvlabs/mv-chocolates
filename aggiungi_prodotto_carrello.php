@@ -19,6 +19,9 @@ $prodotto = recuperaProdottoDaCodice($codiceProdotto);
 //aggiungiProdottoCarrello($prodotto, 1);
 
 // istanziare una classe carrello
+// avrò un'istanza di ArchivioCarrelli per ogni utente
+// l'istanza sarà attiva per la durata della sessione dell'utente
+// non tengo memoria di tutti i carrelli
 $archivioCarrelli = new ArchivioCarrelli();
 $carrello = $archivioCarrelli->recupera();
 
@@ -29,4 +32,5 @@ $carrello->aggiungiRigaCarrello($prodotto, 1);
 $archivioCarrelli->salva($carrello);
 
 // rimando a pagina carrello
+// redirect a carrello.php
 header ('location: carrello.php');

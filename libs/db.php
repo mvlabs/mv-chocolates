@@ -1,6 +1,7 @@
 <?php
 
 use MvLabs\Chocosite\Entity\Tavoletta;
+use MvLabs\Chocosite\Model\Magazzino;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -17,6 +18,15 @@ function inizializzaListaProdotti() {
 
     return $stmt->fetchAll(PDO::FETCH_CLASS, Tavoletta::class);
 }
+
+function inizializzaMagazzino() {
+    $db = creaConnessionePDO();
+    $stmt =  $db->prepare('SELECT * FROM magazzino');
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Magazzino::class);
+}
+
 
 function recuperaProdottoDaCodice($codice) {
     $db = creaConnessionePDO();
@@ -37,6 +47,29 @@ function recuperaProdottoDaCodice($codice) {
 
     return $stmt->fetch(PDO::FETCH_CLASS);
 }
+
+function salvaMagazzino($prodotti)
+{
+    $db = creaConnessionePDO();
+
+    try {
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $db->beginTransaction();
+
+        // prepara gli statement per l'aggiornamento della tabella magazzino
+        foreach ($prodotti as $prodotto) {
+
+
+        $stmt = $db->prepare("UPDATE magazzino SET disponibilita=?
+                          WHERE codice=?;");
+
+        $stmt->bindParam(':disponibilita', $prodotto->disponibilita, PDO::PARAM_STR);
+        $stmt->bindParam(':codice', $prodotto->codice, PDO::PARAM_STR);
+        $stmt->execute();
+        }
+}
+
 
 function salvaOrdine($prodotti, $utente) {
 
