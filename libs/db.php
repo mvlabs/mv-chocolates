@@ -114,6 +114,65 @@ function salvaOrdine($prodotti, $utente) {
     unset($_SESSION['carrello']);
 }
 
+function aggiornaGiacenze($prodotti, $quantita) {
+
+    $db = creaConnessionePDO();
+
+    try {
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $db->beginTransaction();
+
+
+        // aggiornamento records tabella Magazzino
+        foreach($prodotti as $rigaProdotto) {
+            // prepara la query da eseguire
+            $stmt = $db->prepare('UPDATE magazzino set quantita= :qta WHERE codice = :codice');
+
+            // filtra i dati ricevuti e si assicura che non contengano caratteri indesiderati
+            $codice = filter_input(INPUT_GET, 'codice', FILTER_SANITIZE_STRING);
+            $qta = filter_input(INPUT_GET, 'qta', FILTER_SANITIZE_STRING);
+
+                $totale += $rigaProdotto['prodotto']->prezzo() * $rigaProdotto['quantita'];
+        }
+
+        $stmt->bindParam(':totale', $totale, PDO::PARAM_INT);
+        $stmt->bindParam(':note', $utente['note'], PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $idOrdine = $db->lastInsertId();
+
+        // inserimento in tabella ordini_dettagli
+        foreach($prodotti as $rigaProdotto) {
+
+            $stmt = $db->prepare("INSERT INTO ordini_dettagli (ordine_id, codice_prodotto, prezzo, quantita, totale)
+                                  VALUES (:ordine_id, :codice_prodotto, :prezzo, :quantita, :totale)");
+
+            $stmt->bindParam(':ordine_id', $idOrdine, PDO::PARAM_INT);
+            $stmt->bindParam(':codice_prodotto', $rigaProdotto['prodotto']->codice(), PDO::PARAM_STR);
+            $stmt->bindParam(':prezzo', $rigaProdotto['prodotto']->prezzo(), PDO::PARAM_INT);
+            $stmt->bindParam(':quantita', $rigaProdotto['quantita'], PDO::PARAM_INT);
+
+            $totale = $rigaProdotto['prodotto']->prezzo() * $rigaProdotto['quantita'];
+            $stmt->bindParam(':totale', $totale, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+        }
+
+        $db->commit();
+
+    } catch (Exception $e) {
+        $db->rollBack();
+        echo "Si è verificato un errore: " . $e->getMessage();
+    }
+
+    // svuotamento variabili di sessione
+    unset($_SESSION['utente']);
+    unset($_SESSION['carrello']);
+}
+
 function getListaOrdini() {
     $db = creaConnessionePDO();
 
