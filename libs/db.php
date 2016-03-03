@@ -1,6 +1,7 @@
 <?php
 
 use MvLabs\Chocosite\Entity\Tavoletta;
+use MvLabs\Chocosite\Model\Giacenze;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -16,6 +17,16 @@ function inizializzaListaProdotti() {
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_CLASS, Tavoletta::class);
+}
+
+function inizializzaGiacenze() {
+    $db = creaConnessionePDO();
+
+    $stmt = $db->prepare('SELECT prodotti.codice, prodotti.descrizione, Giacenze.qta  FROM prodotti LEFT JOIN Giacenze ON prodotti.codice=Giacenze.codice;');
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
 }
 
 function recuperaProdottoDaCodice($codice) {

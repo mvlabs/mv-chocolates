@@ -23,6 +23,8 @@ $prodotti = $carrello->getRigheCarrello();
 $utente = $_SESSION['utente'];
 
 salvaOrdine($prodotti, $utente);
-Magazzino->movimenta($prodotti);
+//aggiorna le giacenze
+$Scarico= new Magazzino($prodotti);
+$Scarico->movimenta($prodotti);
 // rimando a pagina carrello
 header ('location: grazie.php');
