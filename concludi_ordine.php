@@ -2,6 +2,7 @@
 
 // usiamo il namespace corretto per la classe ArchivioCarrelli
 use MvLabs\Chocosite\Model\ArchivioCarrelli;
+use MvLabs\Chocosite\Model\Giacenze;
 
 // inizializziamo le sessioni
 session_start();
@@ -22,9 +23,15 @@ $prodotti = $carrello->getRigheCarrello();
 
 $utente = $_SESSION['utente'];
 
+
+//istanzio la classe Giacenze
+
+$movimenta= new Giacenze($prodotti);
+
+//salvo nella proprietà movimenti attraverso il metodo pubblico movimenta l'array del carrello
+$scarico=$movimenta->movimenta($prodotti);
+//salvo i dati nel database nella tabella giacenze
+setGiacenza($scarico,0);
 salvaOrdine($prodotti, $utente);
-//aggiorna le giacenze
-$Scarico= new Magazzino($prodotti);
-$Scarico->movimenta($prodotti);
 // rimando a pagina carrello
-header ('location: grazie.php');
+//header ('location: grazie.php');

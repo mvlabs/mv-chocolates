@@ -2,25 +2,22 @@
 namespace MvLabs\Chocosite\Model;
 
 // clausola use per recuperare la classe Prodotto nel namespace corretto
+use MvLabs\Chocosite\Entity\Prodotto;
 
 class Giacenze {
     private $giacenze = [];
-    private $scarico = [];
-    private $carico = [];
+    private $movimento = [];
 
     public function __construct($riepilogoGiacenze = null) {
         $this->giacenze = $riepilogoGiacenze;
     }
 
-    public function scarico(array $prodotto) {
-        // aggiungere prodotto alla proprietà prodotti con la relativa quantità
-        $this->scarico=$prodotto;
+    public function movimenta(array $prodotto) {
+        // aggiungere prodotto alla proprietà movimento con la relativa quantità
+        $this->movimento=$prodotto;
+        return $this->movimento;
     }
 
-    public function carico(array $prodotto) {
-        // aggiungere prodotto alla proprietà prodotti con la relativa quantità
-        $this->carico=$prodotto;
-    }
     //recupera le giacenze dei prodotti richiesti
     public function getGiacenza()
     {

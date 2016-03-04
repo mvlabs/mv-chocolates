@@ -11,6 +11,7 @@ function creaConnessionePDO() {
     return new PDO('mysql:host=localhost;dbname=mvchocolates', 'root', 'mvlabs');
 }
 
+
 function inizializzaListaProdotti() {
     $db = creaConnessionePDO();
     $stmt =  $db->prepare('SELECT * FROM prodotti');
@@ -18,15 +19,66 @@ function inizializzaListaProdotti() {
 
     return $stmt->fetchAll(PDO::FETCH_CLASS, Tavoletta::class);
 }
+function setGiacenza($prodotti, $segno=0)
+{
+    //setta se si tratta di un carico o scarico
+    $db = creaConnessionePDO();
+    if ($segno=0) {
+      $setSegno=1;
+    } else {
+      $setSegno=-1;
+    }
+
+    try {
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db->beginTransaction();
+        // legge l'array e ricava le quantità da movimentare e i prodotti da aggiornare
+        foreach ($prodotti as $prodotto) {
+          $qtaMov=$prodotto['quantita']*$setSegno;//DEFINISCO SE SI TRATTA DI UN CARICO O SCARICO
+          $codice=$prodotto['prodotto']->codice();//non posso passarlo direttamente a PDO come parametro??
+          //var_dump($prodotto['prodotto']->codice()); NON CAPISCO LA LOGICA DI FUNZIONAMENTO
+          $stmt = $db->prepare("UPDATE giacenze SET qta=(qta+:mov) WHERE codice=:codice;");//il campo qta è unsigned percui i valori negativi dovrebbero creare un eccezione??
+          $stmt->bindParam(':mov', $qtaMov, PDO::PARAM_STR);
+          $stmt->bindParam(':codice', $codice, PDO::PARAM_STR);
+          $stmt->execute();
+        }
+        //un sacco di update da committare ----
+          $db->commit();
+
+        } catch (Exception $e) {
+            $db->rollBack();
+            echo "Si è verificato un errore: " . $e->getMessage();
+        }
+}
 
 function inizializzaGiacenze() {
     $db = creaConnessionePDO();
 
-    $stmt = $db->prepare('SELECT prodotti.codice, prodotti.descrizione, Giacenze.qta  FROM prodotti LEFT JOIN Giacenze ON prodotti.codice=Giacenze.codice;');
+    $stmt = $db->prepare('SELECT prodotti.codice, prodotti.descrizione, giacenze.qta  FROM prodotti LEFT JOIN giacenze ON prodotti.codice=giacenze.codice;');
 
     $stmt->execute();
 
     return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
+}
+
+function recuperaGiacenzaDaCodice($codice) {
+    $db = creaConnessionePDO();
+
+    // prepara la query da eseguire
+    $stmt = $db->prepare('SELECT * FROM giacenze WHERE codice LIKE :codice');
+
+    // filtra i dati ricevuti e si assicura che non contengano caratteri indesiderati
+    $codice = filter_input(INPUT_GET, 'codice', FILTER_SANITIZE_STRING);
+
+    // sanitizza i dati per evitare SQL injections
+    $stmt->bindParam(':codice', $codice, PDO::PARAM_STR);
+
+    $stmt->setFetchMode(PDO::FETCH_CLASS, Tavoletta::class);
+
+    // esegue la query
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_CLASS);
 }
 
 function recuperaProdottoDaCodice($codice) {
@@ -97,72 +149,14 @@ function salvaOrdine($prodotti, $utente) {
 
         // inserimento in tabella ordini_dettagli
         foreach($prodotti as $rigaProdotto) {
-
+            $codice=$rigaProdotto['prodotto']->codice();
+            $prezzo=$rigaProdotto['prodotto']->prezzo();
             $stmt = $db->prepare("INSERT INTO ordini_dettagli (ordine_id, codice_prodotto, prezzo, quantita, totale)
                                   VALUES (:ordine_id, :codice_prodotto, :prezzo, :quantita, :totale)");
 
             $stmt->bindParam(':ordine_id', $idOrdine, PDO::PARAM_INT);
-            $stmt->bindParam(':codice_prodotto', $rigaProdotto['prodotto']->codice(), PDO::PARAM_STR);
-            $stmt->bindParam(':prezzo', $rigaProdotto['prodotto']->prezzo(), PDO::PARAM_INT);
-            $stmt->bindParam(':quantita', $rigaProdotto['quantita'], PDO::PARAM_INT);
-
-            $totale = $rigaProdotto['prodotto']->prezzo() * $rigaProdotto['quantita'];
-            $stmt->bindParam(':totale', $totale, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-        }
-
-        $db->commit();
-
-    } catch (Exception $e) {
-        $db->rollBack();
-        echo "Si è verificato un errore: " . $e->getMessage();
-    }
-
-    // svuotamento variabili di sessione
-    unset($_SESSION['utente']);
-    unset($_SESSION['carrello']);
-}
-
-function aggiornaGiacenze($prodotti, $quantita) {
-
-    $db = creaConnessionePDO();
-
-    try {
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $db->beginTransaction();
-
-
-        // aggiornamento records tabella Magazzino
-        foreach($prodotti as $rigaProdotto) {
-            // prepara la query da eseguire
-            $stmt = $db->prepare('UPDATE magazzino set quantita= :qta WHERE codice = :codice');
-
-            // filtra i dati ricevuti e si assicura che non contengano caratteri indesiderati
-            $codice = filter_input(INPUT_GET, 'codice', FILTER_SANITIZE_STRING);
-            $qta = filter_input(INPUT_GET, 'qta', FILTER_SANITIZE_STRING);
-
-                $totale += $rigaProdotto['prodotto']->prezzo() * $rigaProdotto['quantita'];
-        }
-
-        $stmt->bindParam(':totale', $totale, PDO::PARAM_INT);
-        $stmt->bindParam(':note', $utente['note'], PDO::PARAM_STR);
-
-        $stmt->execute();
-
-        $idOrdine = $db->lastInsertId();
-
-        // inserimento in tabella ordini_dettagli
-        foreach($prodotti as $rigaProdotto) {
-
-            $stmt = $db->prepare("INSERT INTO ordini_dettagli (ordine_id, codice_prodotto, prezzo, quantita, totale)
-                                  VALUES (:ordine_id, :codice_prodotto, :prezzo, :quantita, :totale)");
-
-            $stmt->bindParam(':ordine_id', $idOrdine, PDO::PARAM_INT);
-            $stmt->bindParam(':codice_prodotto', $rigaProdotto['prodotto']->codice(), PDO::PARAM_STR);
-            $stmt->bindParam(':prezzo', $rigaProdotto['prodotto']->prezzo(), PDO::PARAM_INT);
+            $stmt->bindParam(':codice_prodotto', $codice, PDO::PARAM_STR);
+            $stmt->bindParam(':prezzo', $prezzo, PDO::PARAM_INT);
             $stmt->bindParam(':quantita', $rigaProdotto['quantita'], PDO::PARAM_INT);
 
             $totale = $rigaProdotto['prodotto']->prezzo() * $rigaProdotto['quantita'];
