@@ -7,6 +7,7 @@ use MvLabs\Chocosite\Model\Giacenze;
 $listaGiacenze = inizializzaGiacenze();
 //istanzio la clase Giacenze il cui metodo __constructor recupera il recorset dal db
 $giacenza = new Giacenze($listaGiacenze);
+var_dump($giacenza);
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +25,7 @@ $giacenza = new Giacenze($listaGiacenze);
     <main>
       <div class="row">
         <div class="col-md-12">
-          <h1>Riepiologo giacenze in magazzino al</h1>
+          <h1>Riepiologo giacenze in magazzino del  <?php echo date('d/m/Y \a\l\l\e H:i:s')?></h1>
         </div>
       </div>
       <div class="row">

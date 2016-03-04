@@ -73,12 +73,12 @@ function recuperaGiacenzaDaCodice($codice) {
     // sanitizza i dati per evitare SQL injections
     $stmt->bindParam(':codice', $codice, PDO::PARAM_STR);
 
-    $stmt->setFetchMode(PDO::FETCH_CLASS, Tavoletta::class);
+    $stmt->setFetchMode(PDO::FETCH_CLASS, Giacenze::class);
 
     // esegue la query
     $stmt->execute();
 
-    return $stmt->fetch(PDO::FETCH_CLASS);
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
 }
 
 function recuperaProdottoDaCodice($codice) {

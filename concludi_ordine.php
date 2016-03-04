@@ -28,7 +28,7 @@ $utente = $_SESSION['utente'];
 
 $movimenta= new Giacenze($prodotti);
 
-//salvo nella proprietà movimenti attraverso il metodo pubblico movimenta l'array del carrello
+//salvo  l'array del carrello nella proprietà movimenti attraverso il metodo pubblico Giacenze->movimenta
 $scarico=$movimenta->movimenta($prodotti);
 //salvo i dati nel database nella tabella giacenze
 setGiacenza($scarico,0);

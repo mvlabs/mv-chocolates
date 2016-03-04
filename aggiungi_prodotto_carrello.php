@@ -1,6 +1,8 @@
 <?php
 // inizializziamo le sessioni
 session_start();
+// usiamo il namespace corretto per la classe Giacenze
+use MvLabs\Chocosite\Model\Giacenze;
 
 include 'libs/db.php';
 
@@ -13,6 +15,17 @@ use MvLabs\Chocosite\Model\ArchivioCarrelli;
 // recuperiamo il prodotto da aggiungere al carrello
 // lettura parametro da URL
 $codiceProdotto = $_GET['codice'];
+
+//recupero dal db le giacenze che vengono vengono rese disponibili da PDO e recuperate nel costruttore della classe Giacenze
+$verificaCodice = recuperaGiacenzaDaCodice($codiceProdotto);
+
+//istanzio la clase Giacenze il cui metodo __constructor recupera il recorset dal db attraverso recuperaGiacenzaDaCodice()
+$giacenza = new Giacenze($verificaCodice);
+//Recupero la quantità in giacenza
+$Disponibile=$giacenza->getGiacenza();
+var_dump($Disponibile);
+
+
 
 $prodotto = recuperaProdottoDaCodice($codiceProdotto);
 
@@ -29,4 +42,4 @@ $carrello->aggiungiRigaCarrello($prodotto, 1);
 $archivioCarrelli->salva($carrello);
 
 // rimando a pagina carrello
-header ('location: carrello.php');
+//header ('location: carrello.php');
