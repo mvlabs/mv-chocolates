@@ -19,6 +19,16 @@ function inizializzaListaProdotti() {
 
     return $stmt->fetchAll(PDO::FETCH_CLASS, Tavoletta::class);
 }
+
+function inizializzaGiacenze() {
+    $db = creaConnessionePDO();
+
+    $stmt = $db->prepare('SELECT prodotti.codice, prodotti.descrizione, giacenze.qta  FROM prodotti LEFT JOIN giacenze ON prodotti.codice=giacenze.codice;');
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
+}
 function setGiacenza($prodotti, $segno=0)
 {
     //setta se si tratta di un carico o scarico
@@ -51,21 +61,13 @@ function setGiacenza($prodotti, $segno=0)
         }
 }
 
-function inizializzaGiacenze() {
-    $db = creaConnessionePDO();
 
-    $stmt = $db->prepare('SELECT prodotti.codice, prodotti.descrizione, giacenze.qta  FROM prodotti LEFT JOIN giacenze ON prodotti.codice=giacenze.codice;');
-
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
-}
 
 function recuperaGiacenzaDaCodice($codice) {
     $db = creaConnessionePDO();
 
     // prepara la query da eseguire
-    $stmt = $db->prepare('SELECT * FROM giacenze WHERE codice LIKE :codice');
+    $stmt = $db->prepare('SELECT codice, qta FROM giacenze WHERE codice LIKE :codice');
 
     // filtra i dati ricevuti e si assicura che non contengano caratteri indesiderati
     $codice = filter_input(INPUT_GET, 'codice', FILTER_SANITIZE_STRING);

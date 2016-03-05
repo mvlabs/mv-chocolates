@@ -1,13 +1,12 @@
 <?php
 include 'libs/db.php';
 include 'vendor/autoload.php';
-use MvLabs\Chocosite\Model\Giacenze;
+use MvLabs\Chocosite\Entity\Giacenze;
 
 //recupero dal db le giacenze che vengono vengono rese disponibili da PDO e recuperate nel costruttore della classe Giacenze
 $listaGiacenze = inizializzaGiacenze();
+
 //istanzio la clase Giacenze il cui metodo __constructor recupera il recorset dal db
-$giacenza = new Giacenze($listaGiacenze);
-var_dump($giacenza);
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,9 +29,6 @@ var_dump($giacenza);
       </div>
       <div class="row">
         <div class="col-md-12">
-          <?php
-          //RECUPERO DALL'ISTANZA DELLA CLASSE IL VALORE DELLA PROPRIETA' PRIVATE GIACENZE
-          $prodottiMagazzino = $giacenza->getGiacenza();?>
           <table class="table table-hover">
             <thead>
               <tr>
@@ -42,16 +38,16 @@ var_dump($giacenza);
               </tr>
             </thead>
             <tbody>
-              <?php foreach($prodottiMagazzino as $prodottoMagazzino){ //PER OGNI PRODOTTO VENGONO STAMPATE LE GIACENZE
+              <?php foreach($listaGiacenze as $giacenza){ //PER OGNI PRODOTTO VENGONO STAMPATE LE GIACENZE
               ?>
               <tr>
                 <th scope="row">1</th>
-                <td><?= $prodottoMagazzino->codice?></td>
-                <?php if ((($prodottoMagazzino->qta)<1) or is_null($prodottoMagazzino->qta)){//VENGONO EVIDENZIATE LE GIACENZE A 0 O ANOMALE?>
+                <td><?= $giacenza->codice()?></td>
+                <?php if ((($giacenza->qta())<1) or is_null($giacenza->qta())){//VENGONO EVIDENZIATE LE GIACENZE A 0 O ANOMALE?>
                   <td>ESAURITO</td>
                   <?php }
                    else {?>
-                  <td><?= $prodottoMagazzino->qta?></td>
+                  <td><?= $giacenza->qta()?></td>
                   <?php }?>
                 <?php }?>
               </tbody>

@@ -14,6 +14,7 @@ $archivioCarrelli = new ArchivioCarrelli();
 
 // recupero il carrello corrente
 $carrello = $archivioCarrelli->recupera();
+
 ?>
 <!DOCTYPE html>
 <html>
