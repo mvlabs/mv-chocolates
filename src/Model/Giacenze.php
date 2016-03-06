@@ -8,7 +8,7 @@ class Giacenze {
      private $codice;
      private $descrizione;
      private $qta;
-     private $movimento;
+     private $daMovimentare;
 
 
     //recupera le giacenze dei prodotti richiesti
@@ -29,8 +29,8 @@ class Giacenze {
 
     public function movimenta($prodotto)
     {
-        $this->movimento= $prodotto;
-        return $this->movimento;
+        $this->daMovimentare= (object)$prodotto;
+        return $this->daMovimentare;
     }
 
 }

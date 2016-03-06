@@ -29,10 +29,11 @@ function inizializzaGiacenze() {
 
     return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
 }
-function setGiacenza($prodotti, $segno=0)
-{
-    //setta se si tratta di un carico o scarico
+
+function setGiacenza(stdclass $movimenta, $segno=0){
     $db = creaConnessionePDO();
+
+    //setta se si tratta di un carico o scarico
     if ($segno=0) {
       $setSegno=1;
     } else {
@@ -43,16 +44,17 @@ function setGiacenza($prodotti, $segno=0)
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->beginTransaction();
         // legge l'array e ricava le quantità da movimentare e i prodotti da aggiornare
-        foreach ($prodotti as $prodotto) {
+        foreach ($movimenta as $prodotto) {
           $qtaMov=$prodotto['quantita']*$setSegno;//DEFINISCO SE SI TRATTA DI UN CARICO O SCARICO
           $codice=$prodotto['prodotto']->codice();//non posso passarlo direttamente a PDO come parametro??
-          //var_dump($prodotto['prodotto']->codice()); NON CAPISCO LA LOGICA DI FUNZIONAMENTO
+          //non capisco perchè non viene generata l'eccezione per un update quando la quantità diventa negativa
           $stmt = $db->prepare("UPDATE giacenze SET qta=(qta+:mov) WHERE codice=:codice;");//il campo qta è unsigned percui i valori negativi dovrebbero creare un eccezione??
           $stmt->bindParam(':mov', $qtaMov, PDO::PARAM_STR);
           $stmt->bindParam(':codice', $codice, PDO::PARAM_STR);
           $stmt->execute();
         }
         //un sacco di update da committare ----
+
           $db->commit();
 
         } catch (Exception $e) {
@@ -60,8 +62,6 @@ function setGiacenza($prodotti, $segno=0)
             echo "Si è verificato un errore: " . $e->getMessage();
         }
 }
-
-
 
 function recuperaGiacenzaDaCodice($codice) {
     $db = creaConnessionePDO();

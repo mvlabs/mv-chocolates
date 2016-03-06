@@ -23,14 +23,11 @@ $prodotti = $carrello->getRigheCarrello();
 
 $utente = $_SESSION['utente'];
 
-
 //istanzio la classe Giacenze
-
-$movimenta= new Giacenze($prodotti);
+$movimenta= new Giacenze();
 //salvo  l'array del carrello nella proprietà movimenti attraverso il metodo pubblico Giacenze->movimenta
-$scarico=$movimenta->movimenta($prodotti);
 //salvo i dati nel database nella tabella giacenze
-setGiacenza($scarico,0);
-//salvaOrdine($prodotti, $utente);
-// rimando a pagina carrello
-//header ('location: grazie.php');
+setGiacenza($movimenta->movimenta($prodotti),0);
+salvaOrdine($prodotti, $utente);
+//rimando a pagina carrello
+header ('location: grazie.php');

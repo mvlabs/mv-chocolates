@@ -5,7 +5,6 @@ include 'libs/db.php';
 $codiceProdotto = $_GET['codice'];
 
 $prodotto = recuperaProdottoDaCodice($codiceProdotto);
-var_dump($prodotto);
 ?>
 <!DOCTYPE html>
 <html>
