@@ -3,6 +3,7 @@ namespace MvLabs\Chocosite\Model;
 
 // clausola use per recuperare la classe Prodotto nel namespace corretto
 use MvLabs\Chocosite\Entity\Prodotto;
+use MvLabs\Chocosite\Entity\Segno;
 
 class Giacenze {
      private $codice;

@@ -3,6 +3,7 @@
 // usiamo il namespace corretto per la classe ArchivioCarrelli
 use MvLabs\Chocosite\Model\ArchivioCarrelli;
 use MvLabs\Chocosite\Model\Giacenze;
+use MvLabs\Chocosite\Model\Segno;
 
 // inizializziamo le sessioni
 session_start();
@@ -27,7 +28,8 @@ $utente = $_SESSION['utente'];
 $movimenta= new Giacenze();
 //salvo  l'array del carrello nella proprietà movimenti attraverso il metodo pubblico Giacenze->movimenta
 //salvo i dati nel database nella tabella giacenze
-setGiacenza($movimenta->movimenta($prodotti),0);
-salvaOrdine($prodotti, $utente);
+$Segno=New Segno('-');
+setGiacenza($movimenta->movimenta($prodotti),$Segno);
+//salvaOrdine($prodotti, $utente);
 //rimando a pagina carrello
-header ('location: grazie.php');
+//header ('location: grazie.php');

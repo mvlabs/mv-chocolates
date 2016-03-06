@@ -2,6 +2,7 @@
 
 use MvLabs\Chocosite\Entity\Tavoletta;
 use MvLabs\Chocosite\Model\Giacenze;
+use MvLabs\Chocosite\Model\Segno;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -10,7 +11,6 @@ function creaConnessionePDO() {
     // E' preferibile creare un utente ad-hoc
     return new PDO('mysql:host=localhost;dbname=mvchocolates', 'root', 'mvlabs');
 }
-
 
 function inizializzaListaProdotti() {
     $db = creaConnessionePDO();
@@ -30,22 +30,15 @@ function inizializzaGiacenze() {
     return $stmt->fetchAll(PDO::FETCH_CLASS, Giacenze::class);
 }
 
-function setGiacenza(stdclass $movimenta, $segno=0){
+function setGiacenza(stdclass $movimenta,Segno $segno){
     $db = creaConnessionePDO();
-
-    //setta se si tratta di un carico o scarico
-    if ($segno=0) {
-      $setSegno=1;
-    } else {
-      $setSegno=-1;
-    }
-
     try {
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->beginTransaction();
         // legge l'array e ricava le quantità da movimentare e i prodotti da aggiornare
+        //(ipotizzando che nella tabella giacenze ci siano tutti i prodotti (delegando tutto all'inserimento di nuovi prodotti))
         foreach ($movimenta as $prodotto) {
-          $qtaMov=$prodotto['quantita']*$setSegno;//DEFINISCO SE SI TRATTA DI UN CARICO O SCARICO
+          $qtaMov=$prodotto['quantita']*$segno->getSegno();//DEFINISCO SE SI TRATTA DI UN CARICO O SCARICO
           $codice=$prodotto['prodotto']->codice();//non posso passarlo direttamente a PDO come parametro??
           //non capisco perchè non viene generata l'eccezione per un update quando la quantità diventa negativa
           $stmt = $db->prepare("UPDATE giacenze SET qta=(qta+:mov) WHERE codice=:codice;");//il campo qta è unsigned percui i valori negativi dovrebbero creare un eccezione??
@@ -53,7 +46,7 @@ function setGiacenza(stdclass $movimenta, $segno=0){
           $stmt->bindParam(':codice', $codice, PDO::PARAM_STR);
           $stmt->execute();
         }
-        //un sacco di update da committare ----
+        //un sacco di update da committare ---- (delego al database il controllo della concorrenza??)
 
           $db->commit();
 
