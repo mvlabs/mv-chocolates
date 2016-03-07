@@ -26,10 +26,9 @@ $utente = $_SESSION['utente'];
 
 //istanzio la classe Giacenze
 $movimenta= new Giacenze();
-//salvo  l'array del carrello nella proprietà movimenti attraverso il metodo pubblico Giacenze->movimenta
-//salvo i dati nel database nella tabella giacenze
+//Definisco se si tratta di un carico o scarico del magazzino
 $Segno=New Segno('-');
 setGiacenza($movimenta->movimenta($prodotti),$Segno);
-//salvaOrdine($prodotti, $utente);
+salvaOrdine($prodotti, $utente);
 //rimando a pagina carrello
-//header ('location: grazie.php');
+header ('location: grazie.php');

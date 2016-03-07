@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 06, 2016 at 11:43 PM
+-- Generation Time: Mar 07, 2016 at 09:24 AM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `clienti` (
   `cap` varchar(5) NOT NULL,
   `provincia` varchar(2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `clienti`
@@ -67,21 +67,7 @@ CREATE TABLE IF NOT EXISTS `clienti` (
 
 INSERT INTO `clienti` (`id`, `nome`, `cognome`, `email`, `indirizzo`, `citta`, `cap`, `provincia`) VALUES
 (1, 'Massimiliano', '', '', '', '', '', 'GO'),
-(2, 'MASSIMILIANO', '', '', '', '', '', 'GO'),
-(3, 'Nicola', '', '', '', '', '', 'GO'),
-(4, 'Massimiliano', '', '', '', '', '', 'GO'),
-(5, 'sss', '', '', '', '', '', 'GO'),
-(6, 'Massimiliano', '', '', '', '', '', 'GO'),
-(7, 'maxs', '', '', '', '', '', 'GO'),
-(8, 'maxs', '', '', '', '', '', 'GO'),
-(9, 'Massimiliano', '', '', '', '', '', 'GO'),
-(10, 'Massimiliano', '', '', '', '', '', 'GO'),
-(11, 'maxs', '', '', '', '', '', 'GO'),
-(12, 'AAA', '', '', '', '', '', 'GO'),
-(13, 'MASSIMILIANO', '', '', '', '', '', 'GO'),
-(14, 'nicola', '', '', '', '', '', 'GO'),
-(15, '', '', '', '', '', '', 'GO'),
-(16, '', '', '', '', '', '', 'GO');
+(2, 'MASSIMILIANO', '', '', '', '', '', 'GO');
 
 -- --------------------------------------------------------
 
@@ -103,9 +89,9 @@ CREATE TABLE IF NOT EXISTS `giacenze` (
 
 INSERT INTO `giacenze` (`id`, `codice`, `qta`) VALUES
 (8, 'MINK1', 2),
-(9, 'GIANDUJA', 2),
+(9, 'GIANDUJA', 0),
 (10, 'GUANABIANCO', 3),
-(11, 'GUANA1', 4);
+(11, 'GUANA1', 1);
 
 -- --------------------------------------------------------
 
@@ -121,29 +107,14 @@ CREATE TABLE IF NOT EXISTS `ordini` (
   `note` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_clienteid` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `ordini`
 --
 
 INSERT INTO `ordini` (`id`, `cliente_id`, `data`, `totale`, `note`) VALUES
-(1, 1, '2016-02-10', 500, ''),
-(2, 2, '2016-02-15', 299, ''),
-(3, 3, '2016-02-15', 500, ''),
-(4, 4, '2016-03-04', 500, ''),
-(5, 5, '2016-03-04', 500, ''),
-(6, 6, '2016-03-04', 660, ''),
-(7, 7, '2016-03-04', 660, ''),
-(8, 8, '2016-03-04', 500, ''),
-(9, 9, '2016-03-04', 500, ''),
-(10, 10, '2016-03-04', 500, ''),
-(11, 11, '2016-03-04', 1320, ''),
-(12, 12, '2016-03-06', 1980, ''),
-(13, 13, '2016-03-06', 1820, ''),
-(14, 14, '2016-03-06', 1160, ''),
-(15, 15, '2016-03-06', 500, ''),
-(16, 16, '2016-03-06', 660, '');
+(18, 18, '2016-03-07', 500, '');
 
 -- --------------------------------------------------------
 
@@ -161,26 +132,14 @@ CREATE TABLE IF NOT EXISTS `ordini_dettagli` (
   PRIMARY KEY (`id`),
   KEY `idx_ordine` (`ordine_id`),
   KEY `idx_prodottocodice` (`codice_prodotto`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Dumping data for table `ordini_dettagli`
 --
 
 INSERT INTO `ordini_dettagli` (`id`, `ordine_id`, `codice_prodotto`, `prezzo`, `quantita`, `totale`) VALUES
-(10, 10, 'GUANA1', 500, 1, 500),
-(11, 11, 'GUANABIANCO', 660, 1, 660),
-(12, 11, 'GIANDUJA', 660, 1, 660),
-(13, 12, 'GIANDUJA', 660, 1, 660),
-(14, 12, 'GUANABIANCO', 660, 1, 660),
-(15, 12, 'GUANABIANCO', 660, 1, 660),
-(16, 13, 'GIANDUJA', 660, 1, 660),
-(17, 13, 'GUANA1', 500, 1, 500),
-(18, 13, 'GUANABIANCO', 660, 1, 660),
-(19, 14, 'GUANA1', 500, 1, 500),
-(20, 14, 'GUANABIANCO', 660, 1, 660),
-(21, 15, 'GUANA1', 500, 1, 500),
-(22, 16, 'GUANABIANCO', 660, 1, 660);
+(25, 18, 'GUANA1', 500, 1, 500);
 
 -- --------------------------------------------------------
 
@@ -210,38 +169,11 @@ CREATE TABLE IF NOT EXISTS `prodotti` (
 --
 
 INSERT INTO `prodotti` (`codice`, `nome`, `descrizione`, `ingredienti`, `conservazione`, `scadenza`, `dimensioni`, `peso_netto`, `prezzo`, `url_immagine`, `id_categoria`) VALUES
-('Caffe', 'Caffe Prortorico', NULL, '', '', '', '', 0, 0, '', 0),
+('Caffe', 'Caffe Portorico', NULL, '', '', '', '', 0, 0, '', 0),
 ('GIANDUJA', 'GIANDUJA', 'Tavoletta di cioccolato GIANDUJA', 'pasta di cacao, zucchero di canna, burro di cacao, vaniglia. Cacao min. 74%. Può contenere tracce di nocciole, mandorle, pistacchi, noci, latte.', 'conservare in luogo fresco e asciutto, max 18°C. Degustare a temperatura ambiente.', '14 mesi', '9 x 15,5 x 1,2 cm', 50, 660, 'http://www.thechocolatelife.info/thechocolatelife/NING_ARCHIVE/discussions/1-1000/954-creminooct2011.jpg', 2),
 ('GUANA1', 'GUANA - cioccolato fondente', 'Tavoletta di cioccolato fondente extra al 74%', 'pasta di cacao, zucchero di canna, burro di cacao, vaniglia. Cacao min. 74%. Può contenere tracce di nocciole, mandorle, pistacchi, noci, latte.', 'conservare in luogo fresco e asciutto, max 18°C. Degustare a temperatura ambiente.', '14 mesi', '9 x 15,5 x 1,2 cm', 50, 500, 'https://c1.staticflickr.com/3/2369/2458986998_c81485c2db_z.jpg?zz=1', 3),
 ('GUANABIANCO', 'GUANABIANCO', 'Tavoletta di cioccolato al latte CON NOCCIOLE', 'pasta di cacao, zucchero di canna, burro di cacao, vaniglia. Cacao min. 74%. Può contenere tracce di nocciole, mandorle, pistacchi, noci, latte.', 'conservare in luogo fresco e asciutto, max 18°C. Degustare a temperatura ambiente.', '14 mesi', '9 x 15,5 x 1,2 cm', 50, 660, 'http://www.oxicoa.com/WebRoot/StoreIT5/Shops/16077/5284/F35A/BE49/183C/7522/3E95/9310/D5A5/Nocciolato_al_latte_Oxicoa.jpg', 2),
 ('MINK1', 'MINK', 'Tavoletta di cioccolato al latte', 'pasta di cacao, zucchero di canna, burro di cacao, vaniglia, latte. Cacao min. 30%.', 'conservare in luogo fresco e asciutto, max 18°C. Degustare a temperatura ambiente.', '8 mesi', '9 x 15,5 x 1 cm', 75, 299, 'https://c1.staticflickr.com/5/4027/4429686185_0e5ac89112_z.jpg?zz=1', 1);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `prova`
---
-CREATE TABLE IF NOT EXISTS `prova` (
-`codice` varchar(20)
-,`nome` varchar(200)
-,`descrizione` text
-,`ingredienti` text
-,`conservazione` text
-,`scadenza` varchar(100)
-,`dimensioni` varchar(100)
-,`peso_netto` int(11)
-,`prezzo` int(11)
-,`url_immagine` varchar(200)
-,`id_categoria` int(11)
-);
--- --------------------------------------------------------
-
---
--- Structure for view `prova`
---
-DROP TABLE IF EXISTS `prova`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`mvlabs`@`%` SQL SECURITY DEFINER VIEW `prova` AS select `prodotti`.`codice` AS `codice`,`prodotti`.`nome` AS `nome`,`prodotti`.`descrizione` AS `descrizione`,`prodotti`.`ingredienti` AS `ingredienti`,`prodotti`.`conservazione` AS `conservazione`,`prodotti`.`scadenza` AS `scadenza`,`prodotti`.`dimensioni` AS `dimensioni`,`prodotti`.`peso_netto` AS `peso_netto`,`prodotti`.`prezzo` AS `prezzo`,`prodotti`.`url_immagine` AS `url_immagine`,`prodotti`.`id_categoria` AS `id_categoria` from `prodotti`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
