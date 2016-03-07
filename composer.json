@@ -1,0 +1,9 @@
+{
+    "name": "mvlabs/chocosite",
+    "description": "Chocolates ecommerce website",
+    "autoload": {
+        "psr-4": {
+            "MvLabs\\Chocosite\\": "src/"
+        }
+    }
+}
