@@ -13,4 +13,14 @@ class ProdottiService {
         return $this->datiProdotti;
     }
 
+    public function getProdotto($codice) {
+        foreach($this->datiProdotti as $prodotto) {
+            if ($prodotto['codice'] == $codice) {
+                return $prodotto;
+            }
+        }
+
+        return null;
+    }
+
 }

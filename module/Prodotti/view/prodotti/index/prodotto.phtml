@@ -1,5 +1,36 @@
 <div class="container-fluid">
 
-    <h2>Prodotto scelto: <?=$this->codice ?></h2>
+    <div class="row">
+      <div class="col-md-12">
+        <h1><?= $prodotto['nome'] ?></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img src="<?= $prodotto['url_immagine'] ?>">
+      </div>
+      <div class="col-md-6">
+        <h2><?= $prodotto['nome'] ?></h2>
+        <h3><?= $prodotto['descrizione'] ?></h3>
+        <div>
+          <strong>Ingredienti</strong>: <?= $prodotto['ingredienti'] ?>
+        </div>
+        <div>
+          <strong>Conservazione</strong>: <?= $prodotto['conservazione'] ?>
+        </div>
+        <div>
+          <strong>Scadenza</strong>: <?= $prodotto['scadenza'] ?>
+        </div>
+        <div>
+          <strong>Dimensioni</strong>: <?= $prodotto['dimensioni'] ?>
+        </div>
+        <div>
+          <strong>Peso netto</strong>: <?= $prodotto['peso_netto'] ?>
+        </div>
+        <div>
+          <strong>Prezzo</strong>: <?= $prodotto['prezzo'] ?>
+        </div>
+      </div>
+    </div>
 
 </div>
