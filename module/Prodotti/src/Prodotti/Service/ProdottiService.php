@@ -13,6 +13,10 @@ class ProdottiService {
         return $this->datiProdotti;
     }
 
+    public function getProdottiInEvidenza() {
+        return $this->datiProdotti;
+    }
+
     public function getProdotto($codice) {
         foreach($this->datiProdotti as $prodotto) {
             if ($prodotto['codice'] == $codice) {

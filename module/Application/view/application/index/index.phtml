@@ -9,23 +9,9 @@
   </div>
   <div class="row">
 
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading"><a href="/prodotto.php?codice=latte">cioccolato al latte</a></div>
-        <div class="panel-body">
-          <img src="" />
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading"><a href="/prodotto.php?codice=fondente">cioccolato fondente</a></div>
-        <div class="panel-body">
-          <img src="" />
-        </div>
-      </div>
-    </div>
+      <?php foreach($this->prodottiEvidenza as $prodotto) {
+          echo $this->partial('partials/prodotto.phtml', ['prodotto' => $prodotto]);
+      } ?>
 
   </div>
 </div>
