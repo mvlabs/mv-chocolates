@@ -20,7 +20,7 @@ class ProdottiService {
     }
 
     public function getListaProdotti() {
-        return $this->prodottiRepository->findAll();
+        return $this->prodottiRepository->getListaProdotti();
     }
 
 }
