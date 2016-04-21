@@ -1,0 +1,25 @@
+
+<a class="btn btn-primary" href="<?=$this->url('zfcadmin/Anagrafica/nuovo')?>" role="button">nuovo Anagrafica</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Codice</th>
+            <th>Anagrafica</th>
+            <th>Categoria</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->lista as $Anagrafica) { ?>
+        <tr>
+            <th scope="row"><?=$Anagrafica->getCodice()?></th>
+            <td><?=$Anagrafica->getNome()?></td>
+            <td>
+                <a class="btn btn-default" href="" role="button">modifica</a>
+                <a class="btn btn-default" href="<?=$this->url('zfcadmin/Anagrafica/elimina', ['codice' => $Anagrafica->getCodice()])?>" role="button">elimina</a>
+            </td>
+        </tr>
+        <?php } ?>
+    </tbody>
+</table>
