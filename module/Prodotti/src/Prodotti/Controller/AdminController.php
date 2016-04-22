@@ -64,4 +64,14 @@ class AdminController extends AbstractActionController
         $this->redirect()->toRoute('zfcadmin/prodotti');
     }
 
+    public function modificaAction()
+    {
+        $prodotto = $this->prodottiService->getProdotto($this->params()->fromRoute('codice'));
+        var_dump($prodotto);
+        $arrayProdotto=$this->prodottiService->getArrayProdotti($prodotto);
+        var_dump($arrayProdotto);
+        //$form = new ProdottoForm($prodotto);
+        //return new ViewModel(['form' => $this->form]);
+    }
+
 }

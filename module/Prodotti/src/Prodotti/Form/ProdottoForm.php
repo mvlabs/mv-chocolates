@@ -95,6 +95,8 @@ class ProdottoForm extends Form
                      'class' => 'control-label',
                  ),
                  'value_options' => $listaCategorie,
+
+                 //'value_options' => ['1'=>'cocco','2'=>'cioccolato'],
             ),
             'attributes' => [
                 'id'       => 'categoria',

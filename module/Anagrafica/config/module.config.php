@@ -93,13 +93,14 @@ return array(
         ],
     ],
 
-    // navigation area admin
-    'navigation' => array(
-        'admin' => array(
-            'Anagrafica' => array(
-                'label' => 'Anagrafica',
-                'route' => 'zfcadmin/Anagrafica',
+
+        // navigation area admin
+        'navigation' => array(
+            'admin' => array(
+                'Anagrafica' => array(
+                    'label' => 'Anagrafica',
+                    'route' => 'zfcadmin/Anagrafica',
+                ),
             ),
         ),
-    ),
-);
+    );

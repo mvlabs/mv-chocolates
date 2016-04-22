@@ -19,10 +19,10 @@ class ProdottoFormFactory implements FactoryInterface
         $prodottiService = $serviceLocator->get('Prodotti\Service\ProdottiService');
         $listaCategorie = $prodottiService->getArrayCategorie();
 
-        $inputFilter = new ProdottoInputFilter();
-        $form = new ProdottoForm($listaCategorie);
+        $inputFilter = new ProdottoInputFilter();//rimanda ai filter
+        $form = new ProdottoForm($listaCategorie);//carica in un array la lista delle categorie nella combo
 
-        $form->setInputFilter($inputFilter);
+        $form->setInputFilter($inputFilter);//applica i filter alla form
 
         return $form;
     }

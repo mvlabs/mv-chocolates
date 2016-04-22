@@ -66,6 +66,18 @@ return array(
                                     ),
                                 ),
                             ),
+                            'modifica' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/modifica/:codice',
+                                    'constraints' => array(
+                                        'codice' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    ),
+                                    'defaults' => array(
+                                        'action' => 'modifica',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -112,6 +124,7 @@ return array(
             'BjyAuthorize\Guard\Controller' => [
 
                 // Pagine fornite dal controller Index: accesso consentito a tutti
+                ['controller' => 'Prodotti\Controller\Index', 'roles' => []],
                 ['controller' => 'Prodotti\Controller\Admin', 'roles' => ['admin']],
 
             ],

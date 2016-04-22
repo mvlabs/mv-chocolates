@@ -15,7 +15,7 @@ class AnagraficaForm extends Form
             'name'       => 'codice',
             'type'       => 'Zend\Form\Element\Text',
             'options' => array(
-                 'label' => 'Codice',
+                 'label' => 'Codice Cliente',
                  'label_attributes' => array(
                      'class' => 'control-label',
                  ),

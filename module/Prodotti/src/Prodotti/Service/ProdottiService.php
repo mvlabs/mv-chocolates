@@ -40,6 +40,17 @@ class ProdottiService {
         return $categorie;
     }
 
+    public function getArrayProdotti($objProdotto) {
+        $prodotti = [];
+        $a=1;
+        foreach($objProdotto as $prodotto) {
+            $prodotti[$prodotto->getId()] = $prodotto->getCodice();
+            $a=2;
+        }
+
+        return $a;
+    }
+
     public function creaNuovoProdotto(array $dati) {
         $prodotto = new Prodotto(
             $dati['codice'],
@@ -57,6 +68,11 @@ class ProdottiService {
     }
 
     public function elimina(Prodotto $prodotto) {
+        $this->entityManager->remove($prodotto);
+        $this->entityManager->flush();
+    }
+
+    public function modifica(Prodotto $prodotto) {
         $this->entityManager->remove($prodotto);
         $this->entityManager->flush();
     }
