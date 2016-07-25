@@ -76,6 +76,18 @@ class Prodotto
         $this->categoria = $categoria;
     }
 
+    public function toArray()
+    {
+        return [
+            'codice' => $this->codice,
+            'nome' => $this->nome,
+            'descrizione' => $this->descrizione,
+            'ingredienti' => $this->ingredienti,
+            'prezzo' => $this->prezzo,
+            'categoria' => $this->categoria->getNome(),
+        ];
+    }
+
     /**
      * Get id
      *

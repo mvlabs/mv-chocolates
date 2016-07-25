@@ -83,12 +83,24 @@ return array(
                 ),
             ),
 
+            'api' => array(
+                'type'    => 'Segment',
+                'options' => array(
+                    'route'    => '/api[/:id]',
+                    'defaults' => array(
+                        'controller' => 'Prodotti\Controller\Api',
+                    ),
+                ),
+            ),
+
+
         ),
     ),
     'controllers' => array(
         'factories' => array(
             'Prodotti\Controller\Index' => Controller\IndexControllerFactory::class,
             'Prodotti\Controller\Admin' => Controller\AdminControllerFactory::class,
+            'Prodotti\Controller\Api' => Controller\ApiControllerFactory::class,
         ),
     ),
     'service_manager' => array(
@@ -100,6 +112,9 @@ return array(
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
     'doctrine'        => [
@@ -123,8 +138,12 @@ return array(
         'guards' => [
             'BjyAuthorize\Guard\Controller' => [
 
-                // Pagine fornite dal controller Index: accesso consentito a tutti
+                // accesso limitato ai soli utenti con ruolo "admin"
                 ['controller' => 'Prodotti\Controller\Admin', 'roles' => ['admin']],
+
+                // accesso consentito a tutti
+                ['controller' => 'Prodotti\Controller\Api', 'roles' => []],
+                ['controller' => 'Prodotti\Controller\Index', 'roles' => []],
 
             ],
         ],
