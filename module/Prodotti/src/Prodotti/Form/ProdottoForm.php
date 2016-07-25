@@ -3,6 +3,7 @@
 namespace Prodotti\Form;
 
 use Zend\Form\Form;
+use Prodotti\Entity\Prodotto;
 
 class ProdottoForm extends Form
 {
@@ -117,6 +118,16 @@ class ProdottoForm extends Form
             ]
         ]);
 
+    }
+
+    public function setDatiProdotto(Prodotto $prodotto)
+    {
+        $this->get('codice')->setValue($prodotto->getCodice());
+        $this->get('nome')->setValue($prodotto->getNome());
+        $this->get('descrizione')->setValue($prodotto->getDescrizione());
+        $this->get('ingredienti')->setValue($prodotto->getIngredienti());
+        $this->get('prezzo')->setValue($prodotto->getPrezzo());
+        $this->get('categoria')->setValue($prodotto->getCategoria()->getId());
     }
 
 }

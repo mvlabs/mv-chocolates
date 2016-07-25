@@ -66,6 +66,18 @@ return array(
                                     ),
                                 ),
                             ),
+                            'modifica' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/modifica/:codice',
+                                    'constraints' => array(
+                                        'codice' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    ),
+                                    'defaults' => array(
+                                        'action' => 'modifica',
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),

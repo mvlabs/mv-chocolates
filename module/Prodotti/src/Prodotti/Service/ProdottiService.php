@@ -56,6 +56,18 @@ class ProdottiService {
         return $prodotto;
     }
 
+    public function aggiornaProdotto(Prodotto $prodotto, array $dati) {
+        $prodotto->setCodice($dati['codice']);
+        $prodotto->setNome($dati['nome']);
+        $prodotto->setDescrizione($dati['descrizione']);
+        $prodotto->setIngredienti($dati['ingredienti']);
+        $prodotto->setPrezzo($dati['prezzo']);
+        $prodotto->setCategoria($this->entityManager->getReference('\Prodotti\Entity\Categoria', $dati['categoria']));
+
+        $this->entityManager->persist($prodotto);
+        $this->entityManager->flush();
+    }
+
     public function elimina(Prodotto $prodotto) {
         $this->entityManager->remove($prodotto);
         $this->entityManager->flush();

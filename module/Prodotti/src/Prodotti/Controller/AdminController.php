@@ -51,6 +51,46 @@ class AdminController extends AbstractActionController
             }
         }
 
+        $viewModel = new ViewModel([
+            'form' => $this->form
+        ]);
+
+        $viewModel->setTemplate('prodotti/admin/modifica');
+
+        return $viewModel;
+    }
+
+    public function modificaAction()
+    {
+        $prodotto = $this->prodottiService->getProdotto($this->params()->fromRoute('codice'));
+
+        $this->form->setDatiProdotto($prodotto);
+
+        if ($this->getRequest()->isPost()) {
+            $request = $this->getRequest();
+
+            // merge dati che arrivano dalla form
+            $postData = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+
+            $this->form->setData($postData);
+
+            if ($this->form->isValid()) {
+
+                $this->prodottiService->aggiornaProdotto($prodotto, $postData);
+
+                // salvataggio del file nella posizione finale
+                if (!empty($postData['immagine'])) {
+                    move_uploaded_file($postData['immagine']['tmp_name'], __DIR__ . '/../../../../../public/prodotti/' . $prodotto->getCodice() . '.jpg');
+                }
+
+                $this->redirect()->toRoute('zfcadmin/prodotti');
+
+            }
+        }
+
         return new ViewModel([
             'form' => $this->form
         ]);

@@ -215,4 +215,18 @@ class Prodotto
     {
         return $this->categoria;
     }
+
+    /**
+     * Set categoria
+     *
+     * @param Categoria $categoria
+     *
+     * @return Prodotto
+     */
+    public function setCategoria(Categoria $categoria)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
 }
